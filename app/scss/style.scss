@@ -1,5 +1,113 @@
-.elem {
-  color: red;
-  display: grid;
+@import "config/variables";
+@import "config/functions";
+@import "config/global";
+
+.header {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  &__login {
+    max-width: 380px;
+    width: 100%;
+    padding: 30px 40px;
+    border: 2px solid $purple;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    background-color: transparent;
+    position: relative;
+    padding-top: 40px;
+    background-color: $dark;
+  }
+  &__login-tabs {
+    position: absolute;
+    top: -40px;
+    left: -2px;
+    color: $purple;
+    font-weight: 500;
+    font-size: 14px;
+    z-index: 0;
+  }
+  &__login-tab {
+    display: inline-block;
+    border: 2px solid $purple;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 10px 10px;
+    @include trans();
+    &.active {
+      padding-left: 20px;
+      padding-right: 20px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      background-color: $purple;
+      color: $dark;
+    }
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+  &__login-label {
+    position: relative;
+    display: block;
+    text-align: center;
+    border: 2px solid $purple;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    .signature {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 0 3px;
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      background-color: $dark;
+    }
+    input {
+      background-color: transparent;
+      display: block;
+      width: 100%;
+      border: none;
+      padding: 10px;
+      outline: none;
+      color: $purple;
+      font-weight: 500;
+      @include trans();
+      &::placeholder{
+        font-size: 12px;
+      }
+      
+    }
+  }
+  &__login-submit {
+    display: block;
+    max-width: 200px;
+    margin: 0 auto;
+    background: transparent;
+    border-radius: 10px;
+    color: $purple;
+    font-weight: 600;
+    border: 3px solid $purple;
+    padding: 10px 40px;
+    font-size: 18px;
+    cursor: pointer;
+    @include trans();
+    &:hover {
+      background-color: $purple;
+      color: $dark;
+    }
+  }
+  &__logo {
+    max-width: 120px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    img {
+      width: 100%;
+      display: block;
+    }
+  }
 }
 
