@@ -21,4 +21,4 @@ use App\Http\Controllers\api\LoginController;
 
 Route::post('login', LoginController::class);
 
-//Auth::routes();
+

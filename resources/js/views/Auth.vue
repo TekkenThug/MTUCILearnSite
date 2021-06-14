@@ -46,7 +46,7 @@ export default {
         auth(data) {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', data).then(response => {
-                    // Route to Dashboard
+                    this.$router.push({ name: 'dashboard' });
                 }).catch(error => {
                     const errors = error.response.data.errors;
                     for (let statement in errors)

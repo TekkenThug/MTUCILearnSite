@@ -27,6 +27,9 @@ Vue.component('Auth', require('./views/Auth.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import router from './router';
+
 const app = new Vue({
     el: '#app',
+    router
 });
