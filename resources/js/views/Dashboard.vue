@@ -1,12 +1,16 @@
 <template>
-    <div>
-        <h1>Добро пожаловать на дашборд</h1>
+    <div class="wrapper">
+        <Sidebar />
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+import Sidebar from "../components/Sidebar";
+
 export default {
-    name: "Dashboard"
+    name: "Dashboard",
+    components: { Sidebar }
 }
 </script>
 

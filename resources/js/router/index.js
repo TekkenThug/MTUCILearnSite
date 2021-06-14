@@ -17,7 +17,17 @@ export default new VueRouter({
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: Dashboard
+            component: Dashboard,
+            children: [
+                {
+                    path: '/profile',
+                    name: 'profile'
+                },
+                {
+                    path: '/main',
+                    name: 'main'
+                }
+            ]
         }
     ]
 
