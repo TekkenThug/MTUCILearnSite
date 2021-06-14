@@ -19,7 +19,9 @@
                     </transition>
                     <transition name="slide-fade">
                         <div v-show="showAuthForm" class="brand">
-                            <AuthForm @serialize="auth" />
+                            <AuthForm @serialize="auth"
+                                      :errors="errors"
+                            />
                         </div>
                     </transition>
                 </div>
@@ -37,11 +39,20 @@ export default {
     data() {
         return {
             showAuthForm: false,
+            errors: [],
         }
     },
     methods: {
         auth(data) {
-            // auth logic
+            axios.get('/sanctum/csrf-cookie').then(response => {
+                axios.post('/login', data).then(response => {
+                    // Route to Dashboard
+                }).catch(error => {
+                    const errors = error.response.data.errors;
+                    for (let statement in errors)
+                        this.errors.push(...errors[statement]);
+                });
+            });
         }
     }
 }

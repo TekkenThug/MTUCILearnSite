@@ -1865,18 +1865,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AuthForm",
   data: function data() {
     return {
-      login: "",
+      email: "",
       password: ""
     };
+  },
+  props: {
+    errors: []
   },
   methods: {
     serialize: function serialize() {
       this.$emit('serialize', {
-        login: this.login,
+        email: this.email,
         password: this.password
       });
     }
@@ -1897,6 +1905,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_auth_AuthForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/auth/AuthForm */ "./resources/js/components/auth/AuthForm.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+//
+//
 //
 //
 //
@@ -1935,11 +1957,26 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      showAuthForm: false
+      showAuthForm: false,
+      errors: []
     };
   },
   methods: {
-    auth: function auth(data) {// auth logic
+    auth: function auth(data) {
+      var _this = this;
+
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        axios.post('/login', data).then(function (response) {// Route to Dashboard
+        })["catch"](function (error) {
+          var errors = error.response.data.errors;
+
+          for (var statement in errors) {
+            var _this$errors;
+
+            (_this$errors = _this.errors).push.apply(_this$errors, _toConsumableArray(errors[statement]));
+          }
+        });
+      });
     }
   }
 });
@@ -2011,6 +2048,7 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.baseURL = '/api';
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -37741,8 +37779,8 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.login,
-            expression: "login"
+            value: _vm.email,
+            expression: "email"
           }
         ],
         staticClass: "form-control",
@@ -37752,13 +37790,13 @@ var render = function() {
           "aria-describedby": "emailHelp",
           placeholder: "Enter email"
         },
-        domProps: { value: _vm.login },
+        domProps: { value: _vm.email },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.login = $event.target.value
+            _vm.email = $event.target.value
           }
         }
       })
@@ -37795,6 +37833,22 @@ var render = function() {
         }
       })
     ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      _vm._l(_vm.errors, function(error, index) {
+        return _c(
+          "div",
+          {
+            key: index,
+            staticClass: "alert alert-danger",
+            attrs: { role: "alert" }
+          },
+          [_vm._v("\n            " + _vm._s(error) + "\n        ")]
+        )
+      }),
+      0
+    ),
     _vm._v(" "),
     _c(
       "button",
@@ -37902,7 +37956,12 @@ var render = function() {
                   ],
                   staticClass: "brand"
                 },
-                [_c("AuthForm", { on: { serialize: _vm.auth } })],
+                [
+                  _c("AuthForm", {
+                    attrs: { errors: _vm.errors },
+                    on: { serialize: _vm.auth }
+                  })
+                ],
                 1
               )
             ])
