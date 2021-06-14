@@ -1909,6 +1909,9 @@ __webpack_require__.r(__webpack_exports__);
         email: this.email,
         password: this.password
       });
+    },
+    clearForm: function clearForm() {
+      this.email = this.password = "";
     }
   }
 });
@@ -1971,6 +1974,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Auth",
@@ -1996,6 +2000,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             name: 'dashboard'
           });
         })["catch"](function (error) {
+          _this.$refs.authForm.clearForm();
+
           var errors = error.response.data.errors;
 
           for (var statement in errors) {
@@ -38277,6 +38283,7 @@ var render = function() {
                   },
                   [
                     _c("AuthForm", {
+                      ref: "authForm",
                       attrs: { errors: _vm.errors },
                       on: { serialize: _vm.auth }
                     })

@@ -20,6 +20,7 @@
                         <div v-show="showAuthForm === 'yes'" class="brand">
                             <AuthForm @serialize="auth"
                                       :errors="errors"
+                                      ref="authForm"
                             />
                         </div>
                     </transition>
@@ -51,6 +52,8 @@ export default {
                 axios.post('/login', data).then(response => {
                     this.$router.push({ name: 'dashboard' });
                 }).catch(error => {
+                    this.$refs.authForm.clearForm();
+
                     const errors = error.response.data.errors;
                     for (let statement in errors)
                         this.errors.push(...errors[statement]);

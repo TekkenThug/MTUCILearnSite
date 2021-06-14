@@ -31,7 +31,10 @@ class LoginController extends Controller
         }
 
         return response([
-            'status' => 'fail'
+            'status' => 'fail',
+            'errors' => [
+                'user' => ['Ошибка в авторизации. Проверьте, пожалуйста, логин/пароль']
+            ]
         ], 500);
     }
 }

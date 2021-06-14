@@ -37,6 +37,9 @@ export default {
         serialize() {
             this.$emit('serialize', {email: this.email, password: this.password});
         },
+        clearForm() {
+            this.email = this.password = "";
+        }
     },
 }
 </script>
