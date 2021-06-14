@@ -2,13 +2,11 @@
     <form>
         <div class="form-group">
             <label for="exampleInputEmail1">Логин</label>
-            <input v-model="email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                   placeholder="Enter email">
+            <input v-model="email" type="text" class="form-control" id="exampleInputEmail1">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Пароль</label>
-            <input v-model="password" type="password" class="form-control" id="exampleInputPassword1"
-                   placeholder="Password">
+            <input v-model="password" type="password" class="form-control" id="exampleInputPassword1">
         </div>
         <div>
             <div v-for="(error, index) in errors" :key="index" class="alert alert-danger" role="alert">
@@ -43,8 +41,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 label {
     color: #fff;
+}
+input {
+    color: #fff;
+    &:focus,
+    &:active {
+        color: #fff;
+    }
 }
 </style>

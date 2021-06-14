@@ -1,24 +1,23 @@
 <template>
-    <div>
+    <div class="wrapper" style="background-image: url('/images/bg/auth-bg.jpg');">
         <div class="page-header clear-filter">
             <div class="content-center">
                 <div class="col-md-8 ml-auto mr-auto">
                     <transition name="slide-fade">
-                        <div v-show="!showAuthForm" class="brand">
+                        <div v-show="showAuthForm === 'no'" class="brand">
                             <h1 class="title">
-                                MTUCILearnSite
+                                MTUCILearn
                             </h1>
-                            <h3 class="description">Расписание</h3>
                             <br/>
                             <button
-                                @click="showAuthForm = true"
+                                @click="showAuthForm = 'transient'"
                                 class="btn btn-primary btn-round btn-lg">
                                 Войти в панель
                             </button>
                         </div>
                     </transition>
                     <transition name="slide-fade">
-                        <div v-show="showAuthForm" class="brand">
+                        <div v-show="showAuthForm === 'yes'" class="brand">
                             <AuthForm @serialize="auth"
                                       :errors="errors"
                             />
@@ -27,6 +26,7 @@
                 </div>
             </div>
         </div>
+        <loader v-if="loader" />
     </div>
 </template>
 
@@ -38,12 +38,15 @@ export default {
     components: { AuthForm },
     data() {
         return {
-            showAuthForm: false,
+            showAuthForm: "no",
+            loader: false,
             errors: [],
         }
     },
     methods: {
         auth(data) {
+            this.loader = true;
+            this.errors = [];
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', data).then(response => {
                     this.$router.push({ name: 'dashboard' });
@@ -51,14 +54,37 @@ export default {
                     const errors = error.response.data.errors;
                     for (let statement in errors)
                         this.errors.push(...errors[statement]);
+                    this.loader = false;
                 });
             });
+        }
+    },
+    watch: {
+        showAuthForm(value) {
+
+            if (value === 'transient') {
+                setTimeout(() => this.showAuthForm = 'yes', 500);
+            }
         }
     }
 }
 </script>
 
 <style scoped>
+.wrapper {
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    background-position: center;
+}
+.wrapper::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+
+}
 .slide-fade-enter-active {
     transition: all .8s ease;
 }
@@ -130,5 +156,10 @@ export default {
     z-index: 2;
     height: calc(100vh - 70px);
     margin-top: 70px;
+}
+
+.title {
+    font-weight: 600;
+    color: #fff;
 }
 </style>

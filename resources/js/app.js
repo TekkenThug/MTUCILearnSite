@@ -20,6 +20,7 @@ window.Vue = require('vue').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('Auth', require('./views/Auth.vue').default);
+Vue.component('loader', require('./components/Loader').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,7 +30,8 @@ Vue.component('Auth', require('./views/Auth.vue').default);
 
 import router from './router';
 
+
 const app = new Vue({
     el: '#app',
-    router
+    router,
 });
