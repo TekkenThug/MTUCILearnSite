@@ -2317,7 +2317,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Dashboard",
@@ -2649,6 +2648,11 @@ vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
 
 
 
+
+var postfix = function postfix(str) {
+  return str + " - MTUCILearn";
+};
+
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__.default({
   mode: 'history',
   routes: [{
@@ -2656,7 +2660,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__.default({
     name: 'login',
     component: _views_Auth__WEBPACK_IMPORTED_MODULE_3__.default,
     meta: {
-      auth: false
+      auth: false,
+      title: postfix("Вход")
     }
   }, {
     path: '/dashboard',
@@ -2671,11 +2676,17 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__.default({
     children: [{
       path: 'profile',
       name: 'profile',
-      component: _views_dashboard_views_User__WEBPACK_IMPORTED_MODULE_5__.default
+      component: _views_dashboard_views_User__WEBPACK_IMPORTED_MODULE_5__.default,
+      meta: {
+        title: postfix("Мой профиль")
+      }
     }, {
       path: 'schedule',
       name: 'schedule',
-      component: _views_dashboard_views_Schedule__WEBPACK_IMPORTED_MODULE_6__.default
+      component: _views_dashboard_views_Schedule__WEBPACK_IMPORTED_MODULE_6__.default,
+      meta: {
+        title: postfix("Расписание")
+      }
     }]
   }]
 });
@@ -2686,10 +2697,11 @@ router.beforeEach( /*#__PURE__*/function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
+            document.title = to.meta.title;
+            _context.next = 3;
             return vue__WEBPACK_IMPORTED_MODULE_1__.default.prototype.$api.auth.isAuth();
 
-          case 2:
+          case 3:
             auth = _context.sent;
             metaInfo = to.matched.some(function (record) {
               return record.meta.auth;
@@ -2700,7 +2712,7 @@ router.beforeEach( /*#__PURE__*/function () {
               name: 'dashboard'
             });else next();
 
-          case 5:
+          case 6:
           case "end":
             return _context.stop();
         }

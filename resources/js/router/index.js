@@ -8,6 +8,8 @@ import Dashboard from "../views/Dashboard";
 import User from "../views/dashboard-views/User";
 import Schedule from "../views/dashboard-views/Schedule"
 
+const postfix = (str) => str + " - MTUCILearn";
+
 const router = new VueRouter({
     mode: 'history',
     routes: [
@@ -15,7 +17,7 @@ const router = new VueRouter({
             path: '/',
             name: 'login',
             component: Auth,
-            meta: { auth: false }
+            meta: { auth: false, title: postfix("Вход")}
         },
         {
             path: '/dashboard',
@@ -28,18 +30,23 @@ const router = new VueRouter({
                     path: 'profile',
                     name: 'profile',
                     component: User,
+                    meta: { title: postfix("Мой профиль") }
                 },
                 {
                     path: 'schedule',
                     name: 'schedule',
-                    component: Schedule
+                    component: Schedule,
+                    meta: { title: postfix("Расписание") }
                 }
             ]
         }
     ]
 });
 
+
+
 router.beforeEach(async (to, from, next) => {
+    document.title = to.meta.title;
     const auth = await Vue.prototype.$api.auth.isAuth();
     const metaInfo = to.matched.some(record => record.meta.auth);
 

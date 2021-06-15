@@ -1,7 +1,6 @@
 <template>
     <div class="wrapper">
         <Sidebar />
-
         <div class="main-panel">
             <router-view></router-view>
         </div>
