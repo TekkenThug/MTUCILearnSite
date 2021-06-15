@@ -5,8 +5,10 @@ Vue.use(VueRouter)
 
 import Auth from "../views/Auth";
 import Dashboard from "../views/Dashboard";
+
+/* DashBoard pages */
 import User from "../views/dashboard-views/User";
-import Schedule from "../views/dashboard-views/Schedule"
+import Schedule from "../views/dashboard-views/Schedule";
 
 const postfix = (str) => str + " - MTUCILearn";
 
