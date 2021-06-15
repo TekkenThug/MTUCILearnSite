@@ -22,7 +22,10 @@ use App\Http\Controllers\api\SessionController;
 Route::post('login', [SessionController::class, 'login']);
 Route::get('user', [SessionController::class, 'isAuthenticated']);
 
-// Защитить роуты
-Route::delete('logout', [SessionController::class, 'logout']);
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::delete('logout', [SessionController::class, 'logout']);
+});
+
+
 
 
