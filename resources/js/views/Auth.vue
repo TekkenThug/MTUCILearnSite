@@ -46,20 +46,22 @@ export default {
     },
     methods: {
         auth(data) {
+            const errHandler = (errors) => {
+                this.$refs.authForm.clearForm();
+
+                for (let statement in errors)
+                    this.errors.push(...errors[statement]);
+                this.loader = false;
+            }
+
+            const redirect = () => {
+                this.$router.push({ name: 'dashboard' });
+            }
+
             this.loader = true;
             this.errors = [];
-            axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.post('/login', data).then(response => {
-                    this.$router.push({ name: 'dashboard' });
-                }).catch(error => {
-                    this.$refs.authForm.clearForm();
 
-                    const errors = error.response.data.errors;
-                    for (let statement in errors)
-                        this.errors.push(...errors[statement]);
-                    this.loader = false;
-                });
-            });
+            this.$load(() => this.$api.auth.login(data, () => redirect(), (errors) => errHandler(errors)));
         }
     },
     watch: {

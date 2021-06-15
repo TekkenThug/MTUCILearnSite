@@ -2110,25 +2110,31 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     auth: function auth(data) {
       var _this = this;
 
+      var errHandler = function errHandler(errors) {
+        _this.$refs.authForm.clearForm();
+
+        for (var statement in errors) {
+          var _this$errors;
+
+          (_this$errors = _this.errors).push.apply(_this$errors, _toConsumableArray(errors[statement]));
+        }
+
+        _this.loader = false;
+      };
+
+      var redirect = function redirect() {
+        _this.$router.push({
+          name: 'dashboard'
+        });
+      };
+
       this.loader = true;
       this.errors = [];
-      axios.get('/sanctum/csrf-cookie').then(function (response) {
-        axios.post('/login', data).then(function (response) {
-          _this.$router.push({
-            name: 'dashboard'
-          });
-        })["catch"](function (error) {
-          _this.$refs.authForm.clearForm();
-
-          var errors = error.response.data.errors;
-
-          for (var statement in errors) {
-            var _this$errors;
-
-            (_this$errors = _this.errors).push.apply(_this$errors, _toConsumableArray(errors[statement]));
-          }
-
-          _this.loader = false;
+      this.$load(function () {
+        return _this.$api.auth.login(data, function () {
+          return redirect();
+        }, function (errors) {
+          return errHandler(errors);
         });
       });
     }
@@ -2193,7 +2199,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__() {
   return {
-    login: function login() {// Login ...
+    login: function login(data, nextAction, breakAction) {
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        axios.post('/login', data).then(function (response) {
+          nextAction();
+        })["catch"](function (error) {
+          return breakAction(error.response.data.errors);
+        });
+      });
     },
     isAuth: function isAuth() {
       return axios.get('/user').then(function (res) {
@@ -2239,6 +2252,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./resources/js/router/index.js");
 /* harmony import */ var _plugins_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./plugins/api */ "./resources/js/plugins/api.js");
+/* harmony import */ var _plugins_load__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./plugins/load */ "./resources/js/plugins/load.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -2267,7 +2281,9 @@ Vue.component('loader', __webpack_require__(/*! ./components/Loader */ "./resour
 
 
 
+
 Vue.use(_plugins_api__WEBPACK_IMPORTED_MODULE_1__.default);
+Vue.use(_plugins_load__WEBPACK_IMPORTED_MODULE_2__.default);
 var app = new Vue({
   el: '#app',
   router: _router__WEBPACK_IMPORTED_MODULE_0__.default
@@ -2336,6 +2352,68 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   install: function install(Vue) {
     Vue.prototype.$api = _api_index__WEBPACK_IMPORTED_MODULE_0__.default;
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/plugins/load.js":
+/*!**************************************!*\
+  !*** ./resources/js/plugins/load.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  install: function install(Vue) {
+    Vue.prototype.$load = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(action, errHandler) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return action();
+
+              case 3:
+                _context.next = 8;
+                break;
+
+              case 5:
+                _context.prev = 5;
+                _context.t0 = _context["catch"](0);
+
+                if (errHandler) {
+                  errHandler();
+                } else {
+                  console.log(_context.t0.response.data);
+                }
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 5]]);
+      }));
+
+      return function (_x, _x2) {
+        return _ref.apply(this, arguments);
+      };
+    }();
   }
 });
 
