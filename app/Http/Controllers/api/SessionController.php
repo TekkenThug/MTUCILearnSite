@@ -5,17 +5,18 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class SessionController extends Controller
 {
     /**
-     * Обработка попытки аутентификации
+     * Логирование
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -37,4 +38,25 @@ class LoginController extends Controller
             ]
         ], 500);
     }
+
+    /**
+     * Проверка, аутентифицирован ли пользователь
+     *
+     * @return Response
+     */
+    public function isAuthenticated() {
+        return response([
+            'isAuth' => Auth::check()
+        ]);
+    }
+
+//    public function logout() {
+//        if (Auth::check()) {
+//           Auth::logout();
+//
+//           return response([
+//               ''
+//           ])
+//        }
+//    }
 }

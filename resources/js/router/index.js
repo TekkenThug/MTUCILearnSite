@@ -6,18 +6,20 @@ Vue.use(VueRouter)
 import Auth from "../views/Auth";
 import Dashboard from "../views/Dashboard";
 
-export default new VueRouter({
+const router = new VueRouter({
     mode: 'history',
     routes: [
         {
             path: '/',
             name: 'login',
-            component: Auth
+            component: Auth,
+            meta: { auth: false }
         },
         {
             path: '/dashboard',
             name: 'dashboard',
             component: Dashboard,
+            meta: { auth: true },
             children: [
                 {
                     path: '/profile',
@@ -30,6 +32,15 @@ export default new VueRouter({
             ]
         }
     ]
+});
 
+router.beforeEach(async (to, from, next) => {
+    const auth = await Vue.prototype.$api.auth.isAuth();
+
+    if (!auth && to.meta.auth) next({ name: 'login' })
+    else if (!to.meta.auth && auth) router.back();
+    else next()
 })
+
+export default router;
 

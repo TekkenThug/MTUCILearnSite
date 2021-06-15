@@ -22,6 +22,7 @@ window.Vue = require('vue').default;
 Vue.component('Auth', require('./views/Auth.vue').default);
 Vue.component('loader', require('./components/Loader').default);
 
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -29,7 +30,9 @@ Vue.component('loader', require('./components/Loader').default);
  */
 
 import router from './router';
+import ApiPlugin from './plugins/api'
 
+Vue.use(ApiPlugin)
 
 const app = new Vue({
     el: '#app',

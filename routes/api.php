@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\api\LoginController;
+use App\Http\Controllers\api\SessionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,6 +19,7 @@ use App\Http\Controllers\api\LoginController;
 //    return $request->user();
 //});
 
-Route::post('login', LoginController::class);
+Route::post('login', [SessionController::class, 'login']);
+Route::get('user', [SessionController::class, 'isAuthenticated']);
 
 

@@ -10,7 +10,10 @@ import Sidebar from "../components/Sidebar";
 
 export default {
     name: "Dashboard",
-    components: { Sidebar }
+    components: { Sidebar },
+    // async created() {
+    //     console.log(await this.$api.auth.isAuth());
+    // }
 }
 </script>
 
