@@ -1,9 +1,7 @@
 <template>
     <div class="wrapper">
-        <Sidebar />
-        <div class="main-panel">
-            <router-view></router-view>
-        </div>
+        <Sidebar/>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -12,7 +10,7 @@ import Sidebar from "../components/Sidebar";
 
 export default {
     name: "Dashboard",
-    components: { Sidebar },
+    components: {Sidebar},
 
 }
 </script>
