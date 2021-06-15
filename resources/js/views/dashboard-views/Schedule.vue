@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar :title="'Профиль'" />
+        <Navbar :title="'Расписание'" />
     </div>
 </template>
 
@@ -8,7 +8,7 @@
 import Navbar from "../../components/dashboard/Navbar";
 
 export default {
-    name: "User",
+    name: "Schedule",
     components: { Navbar }
 }
 </script>

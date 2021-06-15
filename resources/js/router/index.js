@@ -6,6 +6,7 @@ Vue.use(VueRouter)
 import Auth from "../views/Auth";
 import Dashboard from "../views/Dashboard";
 import User from "../views/dashboard-views/User";
+import Schedule from "../views/dashboard-views/Schedule"
 
 const router = new VueRouter({
     mode: 'history',
@@ -21,7 +22,7 @@ const router = new VueRouter({
             name: 'dashboard',
             component: Dashboard,
             meta: { auth: true },
-            redirect: { name: 'profile' },
+            redirect: { name: 'schedule' },
             children: [
                 {
                     path: 'profile',
@@ -29,8 +30,9 @@ const router = new VueRouter({
                     component: User,
                 },
                 {
-                    path: '/main',
-                    name: 'main'
+                    path: 'schedule',
+                    name: 'schedule',
+                    component: Schedule
                 }
             ]
         }

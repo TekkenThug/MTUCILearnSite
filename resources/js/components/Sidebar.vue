@@ -12,25 +12,19 @@
         </div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-<!--                <li class="nav-item active">-->
-<!--                    <router-link :to="" class="nav-link">-->
-<!--                        <i class="material-icons">dashboard</i>-->
-<!--                        <p>Расписание</p>-->
-<!--                    </router-link>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <router-link :to="" class="nav-link">-->
-<!--                        <i class="material-icons">person</i>-->
-<!--                        <p>Профиль</p>-->
-<!--                    </router-link>-->
-<!--                </li>-->
+                <li class="nav-item" :class="{ active: currentRoute === 'schedule'}">
+                    <router-link :to="{ name: 'schedule'}" class="nav-link">
+                        <i class="material-icons">dashboard</i>
+                        <p>Расписание</p>
+                    </router-link>
+                </li>
+                <li class="nav-item" :class="{ active: currentRoute === 'profile'}">
+                    <router-link :to="{name: 'profile'}" class="nav-link">
+                        <i class="material-icons">person</i>
+                        <p>Профиль</p>
+                    </router-link>
+                </li>
             </ul>
-            <button
-                class="exit-btn btn btn-primary"
-                @click="logout"
-            >
-                Выйти
-            </button>
         </div>
         <loader v-if="loader" />
     </div>
@@ -51,19 +45,15 @@ export default {
             if (ans) await this.$router.push({ name: 'login'});
             this.loader = false;
         }
+    },
+    computed: {
+        currentRoute() {
+            return this.$route.name;
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    .sidebar-wrapper {
-        display: flex;
-    }
-
-    .exit-btn {
-        display: block;
-        width: 90%;
-        margin: auto auto 0;
-    }
 
 </style>
