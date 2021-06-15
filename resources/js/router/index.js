@@ -5,6 +5,7 @@ Vue.use(VueRouter)
 
 import Auth from "../views/Auth";
 import Dashboard from "../views/Dashboard";
+import User from "../views/dashboard-views/User";
 
 const router = new VueRouter({
     mode: 'history',
@@ -20,10 +21,12 @@ const router = new VueRouter({
             name: 'dashboard',
             component: Dashboard,
             meta: { auth: true },
+            redirect: { name: 'profile' },
             children: [
                 {
-                    path: '/profile',
-                    name: 'profile'
+                    path: 'profile',
+                    name: 'profile',
+                    component: User,
                 },
                 {
                     path: '/main',
@@ -36,9 +39,10 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     const auth = await Vue.prototype.$api.auth.isAuth();
+    const metaInfo = to.matched.some(record => record.meta.auth);
 
-    if (!auth && to.meta.auth) next({ name: 'login' })
-    else if (!to.meta.auth && auth) router.back();
+    if (!auth && metaInfo) next({ name: 'login' })
+    else if (!metaInfo && auth) next({ name: 'dashboard' });
     else next()
 })
 

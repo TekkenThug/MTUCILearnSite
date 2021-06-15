@@ -51,6 +51,7 @@ export default {
 
                 for (let statement in errors)
                     this.errors.push(...errors[statement]);
+
                 this.loader = false;
             }
 
@@ -66,7 +67,6 @@ export default {
     },
     watch: {
         showAuthForm(value) {
-
             if (value === 'transient') {
                 setTimeout(() => this.showAuthForm = 'yes', 500);
             }
