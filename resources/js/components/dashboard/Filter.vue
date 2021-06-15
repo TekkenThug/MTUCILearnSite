@@ -7,10 +7,11 @@
                         <span class="nav-tabs-title">Выберите неделю:</span>
                         <ul class="nav nav-tabs" data-tabs="tabs">
                             <li class="nav-item" v-for="(day, index) in evens" :key="index">
-                                <a class="nav-link" href="#profile" data-toggle="tab">
+                                <label class="nav-link">
+                                    <input type="radio" v-model="even" :value="day">
                                      {{ day }}
                                     <div class="ripple-container"></div>
-                                </a>
+                                </label>
                             </li>
                         </ul>
                     </div>
@@ -25,10 +26,11 @@
                         <span class="nav-tabs-title">Выберите день:</span>
                         <ul class="nav nav-tabs" data-tabs="tabs">
                             <li class="nav-item" v-for="(day, index) in days" :key="index">
-                                <a class="nav-link" href="#profile" data-toggle="tab">
+                                <label class="nav-link">
+                                    <input type="radio" v-model="weekday" :value="day">
                                     {{ day }}
                                     <div class="ripple-container"></div>
-                                </a>
+                                </label>
                             </li>
                         </ul>
                     </div>
@@ -45,11 +47,18 @@ export default {
         return {
             evens: ["Чётная", "Нечётная"],
             days: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница"],
+            even: null,
+            weekday: null
         }
     }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .nav-link {
+        input {
+            display: none;
+        }
 
+    }
 </style>
