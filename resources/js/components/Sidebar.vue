@@ -25,16 +25,45 @@
 <!--                    </router-link>-->
 <!--                </li>-->
             </ul>
+            <button
+                class="exit-btn btn btn-primary"
+                @click="logout"
+            >
+                Выйти
+            </button>
         </div>
+        <loader v-if="loader" />
     </div>
 </template>
 
 <script>
 export default {
-    name: "Sidebar"
+    name: "Sidebar",
+    data() {
+        return {
+            loader: false
+        }
+    },
+    methods: {
+        async logout() {
+            this.loader = true;
+            const ans = await this.$api.auth.logout();
+            if (ans) await this.$router.push({ name: 'login'});
+            this.loader = false;
+        }
+    }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .sidebar-wrapper {
+        display: flex;
+    }
+
+    .exit-btn {
+        display: block;
+        width: 90%;
+        margin: auto auto 0;
+    }
 
 </style>

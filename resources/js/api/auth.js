@@ -7,7 +7,7 @@ export default function () {
             return axios.get('/user').then(res => res.data.isAuth);
         },
         logout() {
-            // Logout...
+            return axios.delete('/logout').then(res => res.data.logout);
         }
     }
 }

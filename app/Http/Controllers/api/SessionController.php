@@ -50,13 +50,19 @@ class SessionController extends Controller
         ]);
     }
 
-//    public function logout() {
-//        if (Auth::check()) {
-//           Auth::logout();
-//
-//           return response([
-//               ''
-//           ])
-//        }
-//    }
+
+    // Экшн в защищенном роуте
+    public function logout() {
+        if (Auth::check()) {
+           Auth::logout();
+
+           return response([
+               'logout' => true
+           ]);
+        }
+
+        return response([
+            'logout' => false
+        ]);
+    }
 }
