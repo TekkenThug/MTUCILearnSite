@@ -15,10 +15,6 @@ use App\Http\Controllers\api\SessionController;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
 Route::post('login', [SessionController::class, 'login']);
 Route::get('user', [SessionController::class, 'isAuthenticated']);
 
