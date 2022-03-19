@@ -29,7 +29,6 @@ export default {
     @include trans
     border-radius: 5px
     background-color: $blue-1
-    padding: 2px
     color: $white-1
     display: flex
     justify-content: center
@@ -38,4 +37,9 @@ export default {
     &:disabled
       opacity: .3
       cursor: default
+</style>
+
+<style lang="sass">
+  .ui-button
+    padding: 2px
 </style>
