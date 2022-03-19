@@ -1,7 +1,7 @@
 <template>
   <select
     class="ui-select"
-    :value="value"
+    :value="modelValue"
     @change="$emit('change', $event.target.value)"
   >
     <option
@@ -23,26 +23,25 @@
 <script>
 export default {
   name: "ui-select",
+
   model: {
     prop: 'modelValue',
     event: 'change'
   },
+  
   props: {
     placeholder: {
       type: String,
       default: ''
     },
     modelValue: {
+      type: [String, Number],
       default: ''
     },
     initialValues: {
       type: Array,
       required: true
     },
-    value: {
-      type: [String, Number],
-      default: '',
-    }
   },
 }
 </script>
