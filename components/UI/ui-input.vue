@@ -46,6 +46,7 @@ export default {
       padding: 5px 12px
       border-radius: 10px
       border: 2px solid $black-1
+      width: 100%
 
       &::placeholder
         font-size: 14px
