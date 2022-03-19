@@ -1,24 +1,33 @@
 <template>
   <div>
+    <weekday-header
+     :time="time"
+     :number="number"
+    />
+
     <ui-input
-      v-model="weekdayData.subjectTitle"
+      v-model="weekdayData.name"
       placeholder="Название предмета"
+      @input="onChange"
     />
 
     <ui-select
-      v-model="weekdayData.subjectType"
+      v-model="weekdayData.type"
       placeholder="Тип предмета"
       :initial-values="subjectAvailableTypes"
+      @change="onChange"
     />
 
     <ui-input
-      v-model="weekdayData.placeCode"
+      v-model="weekdayData.place"
       placeholder="Аудитория"
+      @input="onChange"
     />
 
     <ui-input
-      v-model="weekdayData.teacherName"
+      v-model="weekdayData.teacher"
       placeholder="Преподаватель"
+      @input="onChange"
     />
   </div>
 </template>
@@ -27,19 +36,51 @@
 import UiSelect from '@/components/UI/ui-select';
 import UiInput from '@/components/UI/ui-input';
 
+import WeekdayHeader from './weekday-header';
+
 export default {
   name: "weekday",
+
   components: {
     UiInput,
     UiSelect,
+    WeekdayHeader,
   },
+
+  props: {
+    name: {
+      type: String,
+      default: '',
+    },
+    type: {
+      type: String,
+      default: '',
+    },
+    teacher: {
+      type: String,
+      default: '',
+    },
+    place: {
+      type: String,
+      default: '',
+    },
+    time: {
+      type: String,
+      required: true,
+    },
+    number: {
+      type: Number,
+      required: true,
+    }
+  },
+
   data() {
     return {
       weekdayData: {
-        subjectTitle: '',
-        subjectType: '',
-        teacherName: '',
-        placeCode: '',
+        name: this.name,
+        type: this.type,
+        teacher: this.teacher,
+        place: this.place,
       },
       subjectAvailableTypes: [
         {
@@ -57,5 +98,11 @@ export default {
       ]
     }
   },
+
+  methods: {
+    onChange() {
+      this.$emit('onChange', this.weekdayData);
+    }
+  }
 }
 </script>
