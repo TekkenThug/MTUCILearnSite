@@ -20,6 +20,11 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+Route.group(() => {
+  Route.get('/schedule', 'SchedulesController.index');
+  Route.post('/schedule', 'SchedulesController.post');
+
+  Route.resource('group', 'GroupsController');
+  Route.resource('time', 'TimesController');
+  Route.resource('user', 'UsersController');
+}).prefix('/api');
