@@ -91,6 +91,7 @@ export default {
     this.$axios.$get("/group").then((response) => {
       response.forEach((item) => {
         this.groups.push({ key: item.name, value: item.name });
+        this.group = this.groups[0] && this.groups[0].key;
       });
     });
   },
