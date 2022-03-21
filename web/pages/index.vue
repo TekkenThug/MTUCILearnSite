@@ -89,7 +89,7 @@ export default {
           this.schedule = [];
 
           this.$axios
-            .$get(`/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}`)
+            .$get(`/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=БСТ1902`)
             .then((response) => {
               this.schedule = this.createFullSchedule(
                 response,
@@ -119,7 +119,7 @@ export default {
 
       this.$axios
         .$post(
-          `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}`,
+          `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=БСТ1902`,
           this.schedule
         )
         .then(() => {})
