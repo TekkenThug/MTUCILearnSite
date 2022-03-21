@@ -7,10 +7,16 @@
         :initial-values="weekdays"
       />
 
-      <div class="schedule__options-even">
-        <ui-radio v-model="isEven" value="odd" label="Нечетная" />
+      <ui-select
+        v-model="group"
+        placeholder="Выберите группу"
+        :initial-values="groups"
+      />
 
-        <ui-radio v-model="isEven" value="even" label="Четная" />
+      <div class="schedule__options-even">
+        <ui-radio v-model="isEven" value="odd" label="Нечетная (Верхняя)" />
+
+        <ui-radio v-model="isEven" value="even" label="Четная (нижняя)" />
       </div>
     </div>
 
@@ -52,6 +58,7 @@ export default {
     return {
       isEven: "",
       dayOfWeek: "",
+      group: "",
       schedule: [],
       weekdays: [
         {
@@ -75,21 +82,32 @@ export default {
           value: "Пятница",
         },
       ],
+      groups: [],
       saveBtnIsActive: false,
     };
   },
 
+  created() {
+    this.$axios.$get("/group").then((response) => {
+      response.forEach((item) => {
+        this.groups.push({ key: item.name, value: item.name });
+      });
+    });
+  },
+
   mounted() {
     this.$watch(
-      (vm) => [vm.dayOfWeek, vm.isEven],
+      (vm) => [vm.dayOfWeek, vm.isEven, vm.group],
       (val) => {
-        if (this.dayOfWeek && this.isEven) {
+        if (this.dayOfWeek && this.isEven && this.group) {
           this.$store.commit("toggleLoader", true);
 
           this.schedule = [];
 
           this.$axios
-            .$get(`/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=БСТ1902`)
+            .$get(
+              `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=${this.group}`
+            )
             .then((response) => {
               this.schedule = this.createFullSchedule(
                 response,
@@ -119,7 +137,7 @@ export default {
 
       this.$axios
         .$post(
-          `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=БСТ1902`,
+          `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=${this.group}`,
           this.schedule
         )
         .then(() => {})
@@ -158,13 +176,16 @@ export default {
   &__options
     display: grid
     grid-template-columns: repeat(2, 1fr)
-    grid-template-rows: 1fr
+    grid-template-rows: repeat(2, 1fr)
     grid-column-gap: 15px
+    grid-row-gap: 5px
 
     &-even
+      grid-area: 2 / 1 / 3 / 3
       display: flex
       justify-content: flex-end
       align-items: center
+      margin-right: auto
 
       >:first-child
         margin-right: 10px
