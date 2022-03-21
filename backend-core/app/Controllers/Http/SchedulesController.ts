@@ -10,7 +10,8 @@ export default class SchedulesController extends BaseController {
     return {
       even: queryParams.even,
       weekday: +queryParams.weekday,
-      userID: queryParams.userID,
+      userID: queryParams.userID || null,
+      group: queryParams.group || null,
     }
   }
 
