@@ -64,10 +64,6 @@ export default {
       type: String,
       default: '',
     },
-    time: {
-      type: String,
-      required: true,
-    },
     number: {
       type: Number,
       required: true,
@@ -82,6 +78,13 @@ export default {
         teacher: this.teacher,
         cabinet: this.cabinet,
       },
+      timeForLessons: [
+        "9:30-11:05",
+        "11:20-12:55",
+        "13:10-14:45",
+        "15:25-17:00",
+        "17:15-18:50",
+      ],
       subjectAvailableTypes: [
         {
           key: 'Lecture',
@@ -96,6 +99,12 @@ export default {
           value: 'Лабораторная'
         }
       ]
+    }
+  },
+
+  computed: {
+    time() {
+      return this.timeForLessons[this.number - 1]
     }
   },
 
