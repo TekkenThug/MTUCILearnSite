@@ -16,12 +16,7 @@
 
     <div v-if="schedule && schedule.length" class="schedule__week">
       <div v-for="(item, index) in schedule" :key="index">
-        <weekday
-          v-bind="item"
-          :time="timeForLessons[index]"
-          :number="index + 1"
-          @onChange="saveToScheduleState($event, index)"
-        />
+        <weekday v-bind="item" @onChange="saveToScheduleState($event, index)" />
       </div>
 
       <ui-button
@@ -60,32 +55,25 @@ export default {
       schedule: [],
       weekdays: [
         {
-          key: "Mon",
+          key: 0,
           value: "Понедельник",
         },
         {
-          key: "Tue",
+          key: 1,
           value: "Вторник",
         },
         {
-          key: "Wed",
+          key: 2,
           value: "Среда",
         },
         {
-          key: "Thu",
+          key: 3,
           value: "Четверг",
         },
         {
-          key: "Fri",
+          key: 4,
           value: "Пятница",
         },
-      ],
-      timeForLessons: [
-        "9:30-11:05",
-        "11:20-12:55",
-        "13:10-14:45",
-        "15:25-17:00",
-        "17:15-18:50",
       ],
       saveBtnIsActive: false,
     };
@@ -100,11 +88,16 @@ export default {
 
           this.schedule = [];
 
-          this.$axios.$get(`/schedule`).then((res) => {
-            this.schedule = res.pairs;
-            this.$store.commit("toggleLoader", false);
-            this.saveBtnIsActive = false;
-          });
+          this.$axios
+            .$get(`/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}`)
+            .then((response) => {
+              this.schedule = this.createFullSchedule(
+                response,
+                response.status && response.status === "EMPTY"
+              );
+              this.$store.commit("toggleLoader", false);
+              this.saveBtnIsActive = false;
+            });
         }
       },
       {
@@ -124,15 +117,41 @@ export default {
     sendScheduleToServer() {
       this.$store.commit("toggleLoader", true);
 
-      this.$axios.$post(`/schedule?even=${this.isEven}&weeekday=${this.dayOfWeek}`, this.schedule)
+      this.$axios
+        .$post(
+          `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}`,
+          this.schedule
+        )
         .then(() => {})
         .finally(() => this.$store.commit("toggleLoader", false));
+    },
+
+    createFullSchedule(targetSchedule, createNew = false) {
+      const fullSchedule = [];
+
+      for (let i = 1; i <= 5; i++) {
+        fullSchedule.push({
+          name: "",
+          number: i,
+          cabinet: "",
+          teacher: "",
+          type: "",
+        });
+      }
+
+      if (!createNew) {
+        targetSchedule.forEach((item) => {
+          fullSchedule.splice(item.number - 1, 1, item);
+        });
+      }
+
+      return fullSchedule;
     },
   },
 };
 </script>
 
-<style lang="sass" scoped>  
+<style lang="sass" scoped>
 @import 'assets/styles/variables.sass'
 
 .schedule
