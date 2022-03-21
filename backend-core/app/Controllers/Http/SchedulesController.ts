@@ -1,14 +1,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { RequestContract } from '@ioc:Adonis/Core/Request'
 import { getSchedule, setSchedule } from 'App/Services/Schedule'
+import BaseController from './BaseController'
 
-enum STATUS_CODE {
-  EMPTY = 'EMPTY',
-  HOLIDAY = 'HOLIDAY',
-  SUCCESS = 'SUCCESS',
-}
-
-export default class SchedulesController {
+export default class SchedulesController extends BaseController {
   private extractQueryParams(request: RequestContract) {
     const queryParams = request.qs()
 
@@ -25,9 +20,9 @@ export default class SchedulesController {
     const response = await getSchedule(params)
 
     return response === 'empty'
-      ? { status: STATUS_CODE.EMPTY }
+      ? this.getCodeState(this.STATE.EMPTY)
       : response === 'holiday'
-      ? { status: STATUS_CODE.HOLIDAY }
+      ? this.getCodeState(this.STATE.HOLIDAY)
       : response
   }
 
@@ -37,6 +32,6 @@ export default class SchedulesController {
 
     await setSchedule(schedule, params)
 
-    return { status: STATUS_CODE.SUCCESS }
+    return this.getCodeState(this.STATE.SUCCESS)
   }
 }
