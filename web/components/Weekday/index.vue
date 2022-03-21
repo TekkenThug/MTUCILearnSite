@@ -19,7 +19,7 @@
     />
 
     <ui-input
-      v-model="weekdayData.place"
+      v-model="weekdayData.cabinet"
       placeholder="Аудитория"
       @input="onChange"
     />
@@ -60,7 +60,7 @@ export default {
       type: String,
       default: '',
     },
-    place: {
+    cabinet: {
       type: String,
       default: '',
     },
@@ -80,7 +80,7 @@ export default {
         name: this.name,
         type: this.type,
         teacher: this.teacher,
-        place: this.place,
+        cabinet: this.cabinet,
       },
       subjectAvailableTypes: [
         {
