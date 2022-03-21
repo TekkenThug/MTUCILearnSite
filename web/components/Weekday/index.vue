@@ -74,6 +74,7 @@ export default {
     return {
       weekdayData: {
         name: this.name,
+        number: this.number,
         type: this.type,
         teacher: this.teacher,
         cabinet: this.cabinet,
