@@ -19,7 +19,7 @@
     />
 
     <ui-input
-      v-model="weekdayData.place"
+      v-model="weekdayData.cabinet"
       placeholder="Аудитория"
       @input="onChange"
     />
@@ -60,13 +60,9 @@ export default {
       type: String,
       default: '',
     },
-    place: {
+    cabinet: {
       type: String,
       default: '',
-    },
-    time: {
-      type: String,
-      required: true,
     },
     number: {
       type: Number,
@@ -78,10 +74,18 @@ export default {
     return {
       weekdayData: {
         name: this.name,
+        number: this.number,
         type: this.type,
         teacher: this.teacher,
-        place: this.place,
+        cabinet: this.cabinet,
       },
+      timeForLessons: [
+        "9:30-11:05",
+        "11:20-12:55",
+        "13:10-14:45",
+        "15:25-17:00",
+        "17:15-18:50",
+      ],
       subjectAvailableTypes: [
         {
           key: 'Lecture',
@@ -96,6 +100,12 @@ export default {
           value: 'Лабораторная'
         }
       ]
+    }
+  },
+
+  computed: {
+    time() {
+      return this.timeForLessons[this.number - 1]
     }
   },
 
