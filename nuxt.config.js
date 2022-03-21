@@ -28,7 +28,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // Miraje.js implementation
-    '~/plugins/server.js',
+    //'~/plugins/server.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
