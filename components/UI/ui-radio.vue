@@ -26,7 +26,7 @@ export default {
      * Radio button label
      */
     label: {
-      type: [String, Number],
+      type: String,
       default: '',
     },
 
@@ -34,6 +34,7 @@ export default {
      * Radio button value (for v-model)
      */
     modelValue: {
+      type: [String, Number],
       default: ''
     },
 
