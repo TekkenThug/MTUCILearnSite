@@ -65,7 +65,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-@import "assets/styles/variables.sass"
+@import "assets/styles/variables"
 
 .auth
   display: flex
