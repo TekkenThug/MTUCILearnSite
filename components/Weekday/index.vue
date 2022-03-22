@@ -1,8 +1,10 @@
 <template>
   <div>
     <weekday-header
-     :time="time"
-     :number="number"
+      :time="time"
+      :number="number"
+      :erase-is-disabled="cardIsEmpty"
+      @onErase="eraseFields"
     />
 
     <ui-input
@@ -33,10 +35,9 @@
 </template>
 
 <script>
-import UiSelect from '@/components/UI/ui-select';
-import UiInput from '@/components/UI/ui-input';
-
-import WeekdayHeader from './weekday-header';
+import UiSelect from "@/components/UI/ui-select";
+import UiInput from "@/components/UI/ui-input";
+import WeekdayHeader from "./weekday-header";
 
 export default {
   name: "weekday",
@@ -50,24 +51,24 @@ export default {
   props: {
     name: {
       type: String,
-      default: '',
+      default: "",
     },
     type: {
       type: String,
-      default: '',
+      default: "",
     },
     teacher: {
       type: String,
-      default: '',
+      default: "",
     },
     cabinet: {
       type: String,
-      default: '',
+      default: "",
     },
     number: {
       type: Number,
       required: true,
-    }
+    },
   },
 
   data() {
@@ -88,31 +89,51 @@ export default {
       ],
       subjectAvailableTypes: [
         {
-          key: 'Lecture',
-          value: 'Лекция'
+          key: "Lecture",
+          value: "Лекция",
         },
         {
-          key: 'Practice',
-          value: 'Практика'
+          key: "Practice",
+          value: "Практика",
         },
         {
-          key: 'Laboratory',
-          value: 'Лабораторная'
-        }
-      ]
-    }
+          key: "Laboratory",
+          value: "Лабораторная",
+        },
+      ],
+    };
   },
 
   computed: {
     time() {
-      return this.timeForLessons[this.number - 1]
-    }
+      return this.timeForLessons[this.number - 1];
+    },
+
+    cardIsEmpty() {
+      return !Boolean(
+        this.weekdayData.name ||
+          this.weekdayData.type ||
+          this.weekdayData.teacher ||
+          this.weekdayData.cabinet
+      );
+    },
   },
 
   methods: {
     onChange() {
-      this.$emit('onChange', this.weekdayData);
+      this.$emit("onChange", this.weekdayData);
+    },
+
+    eraseFields() {
+      const obj = { ...this.weekdayData }
+
+      for (let key in obj) {
+        obj[key] = ''
+      }
+
+      this.$emit("onChange", {...obj, number: this.weekdayData.number })
+      this.weekdayData = {...obj, number: this.weekdayData.number };
     }
-  }
-}
+  },
+};
 </script>
