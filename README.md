@@ -1,4 +1,4 @@
-# mtuci-learn-site
+# MTUCILearn site
 
 ## Build Setup
 
