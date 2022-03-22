@@ -5,12 +5,12 @@
     </div>
 
     <ui-button
-      class="weekday-header__erase"
-      color="red"
-      :disabled="eraseIsDisabled"
-      @click="onErase"
+        class="weekday-header__erase"
+        color="red"
+        :disabled="eraseIsDisabled"
+        @click="onErase"
     >
-      <trash-icon />
+      <trash-icon/>
     </ui-button>
   </div>
 </template>
@@ -28,16 +28,25 @@ export default {
   },
 
   props: {
+    /**
+     * Number of weekday
+     */
     number: {
       type: Number,
       required: true,
     },
 
+    /**
+     * Pair time
+     */
     time: {
       type: String,
       required: true,
     },
 
+    /**
+     * True, if erase fields is disabled
+     */
     eraseIsDisabled: {
       type: Boolean,
       required: true,
@@ -45,6 +54,10 @@ export default {
   },
 
   methods: {
+    /**
+     * Emit 'onErase' event
+     * @returns {void}
+     */
     onErase() {
       if (!this.eraseIsDisabled) {
         this.$emit("onErase");
