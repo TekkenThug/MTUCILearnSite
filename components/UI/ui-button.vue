@@ -23,8 +23,8 @@ export default {
 
     color: {
       type: String,
-      default: 'blue',
-      validator: (value) => ['blue', 'red'].includes(value)
+      default: 'purple',
+      validator: (value) => ['purple', 'red'].includes(value)
     }
   }
 }
@@ -42,8 +42,8 @@ export default {
     justify-content: center
     align-items: center
 
-    &--blue
-      background-color: $blue-1
+    &--purple
+      background-color: $purple-1
 
     &--red
       background-color: $red-1
