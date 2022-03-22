@@ -1,13 +1,13 @@
 <template>
   <button
-    :class="[
-      'ui-button',
-      `ui-button--${color}`
-    ]"
-    :disabled="disabled"
-    @click="$emit('click')"
+      :class="[
+        'ui-button',
+        `ui-button--${color}`
+      ]"
+      :disabled="disabled"
+      @click="$emit('click')"
   >
-    <slot />
+    <slot/>
   </button>
 </template>
 
@@ -16,11 +16,17 @@ export default {
   name: "ui-button",
 
   props: {
+    /**
+     * True, if button must be disabled
+     */
     disabled: {
       type: Boolean,
       default: false,
     },
 
+    /**
+     * Button color scheme
+     */
     color: {
       type: String,
       default: 'purple',
@@ -31,29 +37,29 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  @import "assets/styles/variables"
-  @import "assets/styles/mixins"
+@import "assets/styles/variables"
+@import "assets/styles/mixins"
 
-  .ui-button
-    @include trans
-    border-radius: 5px
-    color: $white-1
-    display: flex
-    justify-content: center
-    align-items: center
+.ui-button
+  @include trans
+  border-radius: 5px
+  color: $white-1
+  display: flex
+  justify-content: center
+  align-items: center
 
-    &--purple
-      background-color: $purple-1
+  &--purple
+    background-color: $purple-1
 
-    &--red
-      background-color: $red-1
+  &--red
+    background-color: $red-1
 
-    &:disabled
-      opacity: .3
-      cursor: default
+  &:disabled
+    opacity: .3
+    cursor: default
 </style>
 
 <style lang="sass">
-  .ui-button
-    padding: 2px
+.ui-button
+  padding: 2px
 </style>
