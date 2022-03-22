@@ -1,6 +1,9 @@
 <template>
   <button
-    class="ui-button"
+    :class="[
+      'ui-button',
+      `ui-button--${color}`
+    ]"
     :disabled="disabled"
     @click="$emit('click')"
   >
@@ -16,6 +19,12 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+
+    color: {
+      type: String,
+      default: 'blue',
+      validator: (value) => ['blue', 'red'].includes(value)
     }
   }
 }
@@ -28,11 +37,16 @@ export default {
   .ui-button
     @include trans
     border-radius: 5px
-    background-color: $blue-1
     color: $white-1
     display: flex
     justify-content: center
     align-items: center
+
+    &--blue
+      background-color: $blue-1
+
+    &--red
+      background-color: $red-1
 
     &:disabled
       opacity: .3
