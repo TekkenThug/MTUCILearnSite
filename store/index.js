@@ -1,9 +1,18 @@
 export const state = () => ({
-  isLoading: false,
+    /**
+     * True, if page in loading state
+     * @type {boolean}
+     */
+    isLoading: false,
 })
 
 export const mutations = {
-  toggleLoader(state, isShow) {
-    state.isLoading = isShow;
-  }
+    /**
+     * Toggle loader state
+     * @param {state} state - current module state
+     * @param {boolean} isShow - loading state value
+     */
+    toggleLoader(state, isShow) {
+        state.isLoading = isShow;
+    }
 }
