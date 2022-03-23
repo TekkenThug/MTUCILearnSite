@@ -1,25 +1,25 @@
 <template>
   <div class="layout">
-    <sidebar/>
+    <sidebar />
 
     <div class="layout__wrapper">
-      <nuxt/>
+      <nuxt />
     </div>
 
-    <loader v-show="hasLoader"/>
+    <loader v-show="hasLoader" />
   </div>
 </template>
 
 <script>
 import Loader from '@/components/Loader';
-import Sidebar from "@/components/Sidebar";
+import Sidebar from '@/components/Sidebar';
 
 export default {
-  name: "default",
+  name: 'Default',
 
   components: {
     Loader,
-    Sidebar
+    Sidebar,
   },
 
   computed: {
@@ -29,9 +29,9 @@ export default {
      */
     hasLoader() {
       return this.$store.state.isLoading;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>

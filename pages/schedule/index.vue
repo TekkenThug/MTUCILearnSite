@@ -2,49 +2,66 @@
   <div>
     <div class="schedule__options">
       <ui-select
-          v-model="dayOfWeek"
-          placeholder="Выберите день недели"
-          :initial-values="weekdays"
+        v-model="dayOfWeek"
+        placeholder="Выберите день недели"
+        :initial-values="weekdays"
       />
 
       <ui-select
-          v-model="group"
-          placeholder="Выберите группу"
-          :initial-values="groups"
+        v-model="group"
+        placeholder="Выберите группу"
+        :initial-values="groups"
       />
 
       <div class="schedule__options-even">
-        <ui-radio v-model="isEven" value="odd" label="Нечетная (Верхняя)"/>
+        <ui-radio
+          v-model="isEven"
+          value="odd"
+          label="Нечетная (Верхняя)"
+        />
 
-        <ui-radio v-model="isEven" value="even" label="Четная (нижняя)"/>
+        <ui-radio
+          v-model="isEven"
+          value="even"
+          label="Четная (нижняя)"
+        />
       </div>
     </div>
 
-    <div v-if="schedule && schedule.length" class="schedule__week">
-      <div v-for="(item, index) in schedule" :key="index">
-        <weekday v-bind="item" @onChange="saveToScheduleState($event, index)"/>
+    <div
+      v-if="schedule && schedule.length"
+      class="schedule__week"
+    >
+      <div
+        v-for="(item, index) in schedule"
+        :key="index"
+      >
+        <weekday
+          v-bind="item"
+          @onChange="saveToScheduleState($event, index)"
+        />
       </div>
 
       <ui-button
-          class="schedule__button"
-          :disabled="!saveBtnIsActive"
-          @click="sendScheduleToServer"
+        class="schedule__button"
+        :disabled="!saveBtnIsActive"
+        @click="sendScheduleToServer"
       >
-        <floppy-disc-icon/>
+        <floppy-disc-icon />
       </ui-button>
     </div>
   </div>
 </template>
 
 <script>
-import Weekday from "@/components/Weekday";
-import UiSelect from "@/components/UI/ui-select";
-import UiRadio from "@/components/UI/ui-radio";
-import { FloppyDiscIcon } from "@iconicicons/vue";
-import UiButton from "@/components/UI/ui-button";
+import { FloppyDiscIcon } from '@iconicicons/vue';
+import Weekday from '@/components/Weekday';
+import UiSelect from '@/components/UI/ui-select';
+import UiRadio from '@/components/UI/ui-radio';
+import UiButton from '@/components/UI/ui-button';
 
 export default {
-  name: "SchedulePage",
+  name: 'SchedulePage',
 
   components: {
     UiButton,
@@ -60,7 +77,7 @@ export default {
        * Week is even
        * @type { 'even' | 'odd'}
        */
-      isEven: "",
+      isEven: '',
 
       /**
        * Day of week in numeric format (from 0 to 6)
@@ -72,7 +89,7 @@ export default {
        * Group name
        * @type {string}
        */
-      group: "",
+      group: '',
 
       /**
        * Schedule config
@@ -87,23 +104,23 @@ export default {
       weekdays: [
         {
           key: 0,
-          value: "Понедельник",
+          value: 'Понедельник',
         },
         {
           key: 1,
-          value: "Вторник",
+          value: 'Вторник',
         },
         {
           key: 2,
-          value: "Среда",
+          value: 'Среда',
         },
         {
           key: 3,
-          value: "Четверг",
+          value: 'Четверг',
         },
         {
           key: 4,
-          value: "Пятница",
+          value: 'Пятница',
         },
       ],
 
@@ -123,7 +140,7 @@ export default {
 
   created() {
     /** Get group list */
-    this.$axios.$get("/group").then((response) => {
+    this.$axios.$get('/group').then((response) => {
       response.forEach((item) => {
         this.groups.push({ key: item.name, value: item.name });
         this.group = this.groups[0] && this.groups[0].key;
@@ -133,31 +150,31 @@ export default {
 
   mounted() {
     this.$watch(
-        (vm) => [vm.dayOfWeek, vm.isEven, vm.group],
-        (val) => {
-          if (this.dayOfWeek && this.isEven && this.group) {
-            this.$store.commit("toggleLoader", true);
+      (vm) => [vm.dayOfWeek, vm.isEven, vm.group],
+      (val) => {
+        if (this.dayOfWeek && this.isEven && this.group) {
+          this.$store.commit('toggleLoader', true);
 
-            this.schedule = [];
+          this.schedule = [];
 
-            this.$axios
-                .$get(
-                    `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=${this.group}`
-                )
-                .then((response) => {
-                  this.schedule = this.createFullSchedule(
-                      response,
-                      response.status && response.status === "EMPTY"
-                  );
-                  this.$store.commit("toggleLoader", false);
-                  this.saveBtnIsActive = false;
-                });
-          }
-        },
-        {
-          immediate: false,
-          deep: true,
+          this.$axios
+            .$get(
+              `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=${this.group}`,
+            )
+            .then((response) => {
+              this.schedule = this.createFullSchedule(
+                response,
+                response.status && response.status === 'EMPTY',
+              );
+              this.$store.commit('toggleLoader', false);
+              this.saveBtnIsActive = false;
+            });
         }
+      },
+      {
+        immediate: false,
+        deep: true,
+      },
     );
   },
 
@@ -180,15 +197,15 @@ export default {
      * @returns {void}
      */
     sendScheduleToServer() {
-      this.$store.commit("toggleLoader", true);
+      this.$store.commit('toggleLoader', true);
 
       this.$axios
-          .$post(
-              `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=${this.group}`,
-              this.schedule
-          )
-          .then(() => {})
-          .finally(() => this.$store.commit("toggleLoader", false));
+        .$post(
+          `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=${this.group}`,
+          this.schedule,
+        )
+        .then(() => {})
+        .finally(() => this.$store.commit('toggleLoader', false));
     },
 
     /**
@@ -203,11 +220,11 @@ export default {
 
       for (let i = 1; i <= 5; i++) {
         fullSchedule.push({
-          name: "",
+          name: '',
           number: i,
-          cabinet: "",
-          teacher: "",
-          type: "",
+          cabinet: '',
+          teacher: '',
+          type: '',
         });
       }
 

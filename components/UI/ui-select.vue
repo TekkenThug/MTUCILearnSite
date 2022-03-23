@@ -1,19 +1,19 @@
 <template>
   <select
-      class="ui-select"
-      :value="modelValue"
-      @change="$emit('change', $event.target.value)"
+    class="ui-select"
+    :value="modelValue"
+    @change="$emit('change', $event.target.value)"
   >
     <option
-        v-if="placeholder"
-        disabled
+      v-if="placeholder"
+      disabled
     >
       {{ placeholder }}
     </option>
     <option
-        v-for="(item, index) in initialValues"
-        :key="index"
-        :value="item.key"
+      v-for="(item, index) in initialValues"
+      :key="index"
+      :value="item.key"
     >
       {{ item.value }}
     </option>
@@ -22,11 +22,11 @@
 
 <script>
 export default {
-  name: "ui-select",
+  name: 'UiSelect',
 
   model: {
     prop: 'modelValue',
-    event: 'change'
+    event: 'change',
   },
 
   props: {
@@ -35,7 +35,7 @@ export default {
      */
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
 
     /**
@@ -43,7 +43,7 @@ export default {
      */
     modelValue: {
       type: [String, Number],
-      default: ''
+      default: '',
     },
 
     /**
@@ -52,10 +52,10 @@ export default {
      */
     initialValues: {
       type: Array,
-      required: true
+      required: true,
     },
   },
-}
+};
 </script>
 
 <style lang="sass" scoped>

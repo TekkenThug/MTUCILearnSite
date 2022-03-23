@@ -3,11 +3,11 @@
     <ul class="sidebar__menu">
       <li class="sidebar__menu-item">
         <nuxt-link
-            class="sidebar__menu-link"
-            active-class="sidebar__menu-link--active"
-            to="/schedule"
+          class="sidebar__menu-link"
+          active-class="sidebar__menu-link--active"
+          to="/schedule"
         >
-          <calendar-icon class="sidebar__menu-icon"/>
+          <calendar-icon class="sidebar__menu-icon" />
         </nuxt-link>
       </li>
     </ul>
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import { CalendarIcon } from "@iconicicons/vue";
+import { CalendarIcon } from '@iconicicons/vue';
 
 export default {
-  name: "sidebar",
+  name: 'Sidebar',
 
   components: {
     CalendarIcon,

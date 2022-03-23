@@ -1,19 +1,19 @@
 <template>
   <button
-      :class="[
-        'ui-button',
-        `ui-button--${color}`
-      ]"
-      :disabled="disabled"
-      @click="$emit('click')"
+    :class="[
+      'ui-button',
+      `ui-button--${color}`
+    ]"
+    :disabled="disabled"
+    @click="$emit('click')"
   >
-    <slot/>
+    <slot />
   </button>
 </template>
 
 <script>
 export default {
-  name: "ui-button",
+  name: 'UiButton',
 
   props: {
     /**
@@ -30,10 +30,10 @@ export default {
     color: {
       type: String,
       default: 'purple',
-      validator: (value) => ['purple', 'red'].includes(value)
-    }
-  }
-}
+      validator: (value) => ['purple', 'red'].includes(value),
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>

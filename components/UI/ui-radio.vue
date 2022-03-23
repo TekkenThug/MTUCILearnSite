@@ -3,10 +3,10 @@
     <label>
       {{ label }}
       <input
-          @change="$emit('change', $event.target.value)"
-          :value="value"
-          :checked="isChecked"
-          type="radio"
+        :value="value"
+        :checked="isChecked"
+        type="radio"
+        @change="$emit('change', $event.target.value)"
       >
     </label>
   </div>
@@ -14,11 +14,11 @@
 
 <script>
 export default {
-  name: "ui-radio",
+  name: 'UiRadio',
 
   model: {
     prop: 'modelValue',
-    event: 'change'
+    event: 'change',
   },
 
   props: {
@@ -35,7 +35,7 @@ export default {
      */
     modelValue: {
       type: [String, Number],
-      default: ''
+      default: '',
     },
 
     /**
@@ -44,7 +44,7 @@ export default {
     value: {
       type: [String, Number],
       default: '',
-    }
+    },
   },
 
   computed: {
@@ -53,8 +53,8 @@ export default {
      * @returns {boolean}
      */
     isChecked() {
-      return this.modelValue === this.value
-    }
-  }
-}
+      return this.modelValue === this.value;
+    },
+  },
+};
 </script>

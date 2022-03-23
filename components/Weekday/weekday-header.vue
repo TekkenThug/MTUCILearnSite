@@ -5,22 +5,22 @@
     </div>
 
     <ui-button
-        class="weekday-header__erase"
-        color="red"
-        :disabled="eraseIsDisabled"
-        @click="onErase"
+      class="weekday-header__erase"
+      color="red"
+      :disabled="eraseIsDisabled"
+      @click="onErase"
     >
-      <trash-icon/>
+      <trash-icon />
     </ui-button>
   </div>
 </template>
 
 <script>
-import UiButton from "@/components/UI/ui-button.vue";
-import { TrashIcon } from "@iconicicons/vue";
+import { TrashIcon } from '@iconicicons/vue';
+import UiButton from '@/components/UI/ui-button.vue';
 
 export default {
-  name: "weekday-header",
+  name: 'WeekdayHeader',
 
   components: {
     UiButton,
@@ -60,7 +60,7 @@ export default {
      */
     onErase() {
       if (!this.eraseIsDisabled) {
-        this.$emit("onErase");
+        this.$emit('onErase');
       }
     },
   },

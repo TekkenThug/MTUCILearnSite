@@ -1,9 +1,15 @@
 <template>
   <div class="auth">
     <div class="auth__content">
-      <form @submit.prevent class="auth__form">
+      <form
+        class="auth__form"
+        @submit.prevent
+      >
         <div class="auth__logo">
-          <img src="~/assets/images/mtuci-logo.png" alt="Logo"/>
+          <img
+            src="~/assets/images/mtuci-logo.png"
+            alt="Logo"
+          >
         </div>
 
         <div class="auth__header">
@@ -11,32 +17,42 @@
           <span>Educational portal</span>
         </div>
 
-        <ui-input v-model="email" placeholder="E-mail"/>
-        <ui-input v-model="password" placeholder="Пароль" type="password"/>
+        <ui-input
+          v-model="email"
+          placeholder="E-mail"
+        />
+        <ui-input
+          v-model="password"
+          placeholder="Пароль"
+          type="password"
+        />
 
-        <ui-button class="auth__button" @click="signIn">
+        <ui-button
+          class="auth__button"
+          @click="signIn"
+        >
           Войти
         </ui-button>
       </form>
     </div>
 
-    <div class="auth__image"/>
+    <div class="auth__image" />
   </div>
 </template>
 
 <script>
-import UiInput from "@/components/UI/ui-input.vue";
-import UiButton from "@/components/UI/ui-button.vue";
+import UiInput from '@/components/UI/ui-input.vue';
+import UiButton from '@/components/UI/ui-button.vue';
 
 export default {
-  name: "AuthPage",
+  name: 'AuthPage',
 
   components: {
     UiInput,
-    UiButton
+    UiButton,
   },
 
-  layout: "fullpage",
+  layout: 'fullpage',
 
   data() {
     return {
@@ -44,13 +60,13 @@ export default {
        * Input email
        * @type {string}
        */
-      email: "",
+      email: '',
 
       /**
        * Input password
        * @type {string}
        */
-      password: "",
+      password: '',
     };
   },
 
