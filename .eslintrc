@@ -4,6 +4,11 @@
     "plugin:vue/recommended",
     "airbnb-base"
   ],
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "parser": "@babel/eslint-parser",
+    "requireConfigFile": false
+  },
   "rules": {
     "vue/multi-word-component-names": "off",
     "import/no-unresolved": "off",
