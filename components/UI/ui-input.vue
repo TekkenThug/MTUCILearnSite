@@ -1,21 +1,30 @@
 <template>
-  <div class="ui-input">
-    <label>
-      {{ label }}
-      <input
+  <validation-provider
+    v-slot="{ errors }"
+    :rules="validationRules"
+  >
+    <div class="ui-input">
+      <label>
+        {{ label }}
+        <input
           class="ui-input__field"
           :type="type"
           :placeholder="placeholder"
           :value="value"
           @input="$emit('input', $event.target.value)"
-      >
-    </label>
-  </div>
+        >
+      </label>
+
+      <span class="ui-input__error">{{ errors[0] }}</span>
+    </div>
+  </validation-provider>
 </template>
 
 <script>
+import { extend } from 'vee-validate';
+
 export default {
-  name: "ui-input",
+  name: 'UiInput',
 
   props: {
     /**
@@ -23,7 +32,7 @@ export default {
      */
     value: {
       type: String,
-      default: ''
+      default: '',
     },
 
     /**
@@ -31,7 +40,7 @@ export default {
      */
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
 
     /**
@@ -39,7 +48,15 @@ export default {
      */
     label: {
       type: String,
-      default: ''
+      default: '',
+    },
+
+    /**
+     * Validation rules (from vee-validate)
+     */
+    rules: {
+      type: Array,
+      default: () => ([]),
     },
 
     /**
@@ -48,10 +65,31 @@ export default {
     type: {
       type: String,
       default: 'text',
-      validator: (value) => ['text', 'password'].includes(value)
+      validator: (value) => ['text', 'password'].includes(value),
+    },
+  },
+
+  computed: {
+    /**
+     * Returns validation rules string (for vee validate)
+     * @return {string}
+     */
+    validationRules() {
+      return this.rules.join('|');
+    },
+  },
+
+  async created() {
+    /** Register validation rules */
+    if (this.rules.length) {
+      const rules = await import('vee-validate/dist/rules');
+
+      this.rules.forEach((item) => {
+        extend(item, rules[item]);
+      });
     }
-  }
-}
+  },
+};
 </script>
 
 <style lang="sass" scoped>
@@ -70,4 +108,10 @@ export default {
 
     &::placeholder
       font-size: 14px
+
+  &__error
+    margin-top: 20px
+    color: $red-1
+    font-weight: 500
+    font-size: 14px
 </style>
