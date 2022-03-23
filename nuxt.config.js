@@ -6,29 +6,30 @@ export default {
   head: {
     title: 'MTUCI Learn Bot Panel',
     htmlAttrs: {
-      lang: 'ru'
+      lang: 'ru',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap'}
-    ]
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap' },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/styles/global.sass'
+    '~/assets/styles/global.sass',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // Miraje.js implementation
-    //'~/plugins/server.js',
+    '~plugins/globalComponents.js',
+    // Mirage.js implementation
+    // '~/plugins/server.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -42,20 +43,20 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
   ],
 
   axios: {
-    baseURL: process.env.BASE_URL
+    baseURL: process.env.BASE_URL,
   },
 
   publicRuntimeConfig: {
     axios: {
-      browserBaseURL: process.env.BASE_URL
-    }
+      browserBaseURL: process.env.BASE_URL,
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
-}
+  },
+};
