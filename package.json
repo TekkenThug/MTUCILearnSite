@@ -20,6 +20,7 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
+    "@nuxtjs/eslint-config": "^9.0.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
     "miragejs": "^0.1.43",
     "postcss": "^8.4.4",
