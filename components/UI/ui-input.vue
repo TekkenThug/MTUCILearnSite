@@ -65,7 +65,7 @@ export default {
   &__field
     padding: 5px 12px
     border-radius: 10px
-    border: 2px solid $black-1
+    border: 2px solid $purple-1
     width: 100%
 
     &::placeholder

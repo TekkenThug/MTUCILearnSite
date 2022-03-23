@@ -64,6 +64,6 @@ export default {
 .ui-select
   width: 100%
   padding: 7px 12px
-  border: 2px solid $black-1
+  border: 2px solid $purple-1
   border-radius: 10px
 </style>
