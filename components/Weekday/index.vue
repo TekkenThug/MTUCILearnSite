@@ -173,9 +173,9 @@ export default {
     eraseFields() {
       const obj = { ...this.weekdayData };
 
-      for (const key in obj) {
+      Object.keys(obj).forEach((key) => {
         obj[key] = '';
-      }
+      });
 
       this.$emit('onChange', { ...obj, number: this.weekdayData.number });
       this.weekdayData = { ...obj, number: this.weekdayData.number };
