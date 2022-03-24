@@ -110,7 +110,6 @@ export default {
       font-size: 14px
 
   &__error
-    margin-top: 20px
     color: $red-1
     font-weight: 500
     font-size: 14px
