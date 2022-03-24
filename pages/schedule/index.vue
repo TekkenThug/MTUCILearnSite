@@ -1,32 +1,12 @@
 <template>
   <div>
-    <div class="schedule__options">
-      <ui-select
-        v-model="dayOfWeek"
-        placeholder="Выберите день недели"
-        :initial-values="weekdays"
-      />
-
-      <ui-select
-        v-model="group"
-        placeholder="Выберите группу"
-        :initial-values="groups"
-      />
-
-      <div class="schedule__options-even">
-        <ui-radio
-          v-model="isEven"
-          value="odd"
-          label="Нечетная (Верхняя)"
-        />
-
-        <ui-radio
-          v-model="isEven"
-          value="even"
-          label="Четная (нижняя)"
-        />
-      </div>
-    </div>
+    <schedule-options
+      :groups="groups"
+      :selected-group="group"
+      :selected-weekday="dayOfWeek"
+      :selected-even="isEven"
+      @onChangeOptions="updateScheduleSettings"
+    />
 
     <div
       v-if="schedule && schedule.length"
@@ -56,17 +36,15 @@
 <script>
 import { FloppyDiscIcon } from '@iconicicons/vue';
 import Weekday from '@/components/Weekday';
-import UiSelect from '@/components/UI/ui-select';
-import UiRadio from '@/components/UI/ui-radio';
+import ScheduleOptions from '@/components/Schedule/schedule-options';
 import UiButton from '@/components/UI/ui-button';
 
 export default {
   name: 'SchedulePage',
 
   components: {
+    ScheduleOptions,
     UiButton,
-    UiRadio,
-    UiSelect,
     Weekday,
     FloppyDiscIcon,
   },
@@ -75,15 +53,15 @@ export default {
     return {
       /**
        * Week is even
-       * @type { 'even' | 'odd'}
+       * @type {'even' | 'odd'}
        */
       isEven: '',
 
       /**
        * Day of week in numeric format (from 0 to 6)
-       * @type {number}
+       * @type {number|null}
        */
-      dayOfWeek: 0,
+      dayOfWeek: null,
 
       /**
        * Group name
@@ -96,33 +74,6 @@ export default {
        * @type {[]}
        */
       schedule: [],
-
-      /**
-       * List of weekdays
-       * @type {{ key: number, value: string }[]}
-       */
-      weekdays: [
-        {
-          key: 0,
-          value: 'Понедельник',
-        },
-        {
-          key: 1,
-          value: 'Вторник',
-        },
-        {
-          key: 2,
-          value: 'Среда',
-        },
-        {
-          key: 3,
-          value: 'Четверг',
-        },
-        {
-          key: 4,
-          value: 'Пятница',
-        },
-      ],
 
       /**
        * List of available groups
@@ -141,41 +92,8 @@ export default {
   created() {
     /** Get group list */
     this.$axios.$get('/group').then((response) => {
-      response.forEach((item) => {
-        this.groups.push({ key: item.name, value: item.name });
-        this.group = this.groups[0] && this.groups[0].key;
-      });
+      this.groups = response.map((item) => ({ key: item.name, value: item.name }));
     });
-  },
-
-  mounted() {
-    this.$watch(
-      (vm) => [vm.dayOfWeek, vm.isEven, vm.group],
-      (val) => {
-        if (this.dayOfWeek && this.isEven && this.group) {
-          this.$store.commit('toggleLoader', true);
-
-          this.schedule = [];
-
-          this.$axios
-            .$get(
-              `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=${this.group}`,
-            )
-            .then((response) => {
-              this.schedule = this.createFullSchedule(
-                response,
-                response.status && response.status === 'EMPTY',
-              );
-              this.$store.commit('toggleLoader', false);
-              this.saveBtnIsActive = false;
-            });
-        }
-      },
-      {
-        immediate: false,
-        deep: true,
-      },
-    );
   },
 
   methods: {
@@ -236,6 +154,41 @@ export default {
 
       return fullSchedule;
     },
+
+    /**
+     * Get schedule from the server
+     * @returns {void}
+     */
+    getSchedule() {
+      this.$store.commit('toggleLoader', true);
+
+      this.schedule = [];
+
+      this.$axios
+        .$get(
+          `/schedule?even=${this.isEven}&weekday=${this.dayOfWeek}&group=${this.group}`,
+        )
+        .then((response) => {
+          this.schedule = this.createFullSchedule(
+            response,
+            response.status && response.status === 'EMPTY',
+          );
+          this.$store.commit('toggleLoader', false);
+          this.saveBtnIsActive = false;
+        });
+    },
+
+    /**
+     * Update settings
+     * @param {object} data
+     */
+    updateScheduleSettings(data) {
+      this.isEven = data.isEven;
+      this.dayOfWeek = data.weekday;
+      this.group = data.group;
+
+      this.getSchedule();
+    },
   },
 };
 </script>
@@ -244,23 +197,6 @@ export default {
 @import 'assets/styles/variables'
 
 .schedule
-  &__options
-    display: grid
-    grid-template-columns: repeat(2, 1fr)
-    grid-template-rows: repeat(2, 1fr)
-    grid-column-gap: 15px
-    grid-row-gap: 5px
-
-    &-even
-      grid-area: 2 / 1 / 3 / 3
-      display: flex
-      justify-content: flex-end
-      align-items: center
-      margin-right: auto
-
-      > :first-child
-        margin-right: 10px
-
   &__week
     margin-top: 15px
     display: grid
