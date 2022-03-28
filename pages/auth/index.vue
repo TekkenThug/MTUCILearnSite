@@ -1,43 +1,48 @@
 <template>
-  <div class="auth">
-    <div class="auth__content">
-      <form
-        class="auth__form"
-        @submit.prevent
-      >
-        <div class="auth__logo">
-          <img
-            src="~/assets/images/mtuci-logo.png"
-            alt="Logo"
-          >
-        </div>
-
-        <div class="auth__header">
-          <h1>MTUCILearn</h1>
-          <span>Educational portal</span>
-        </div>
-
-        <ui-input
-          v-model="email"
-          placeholder="E-mail"
-        />
-        <ui-input
-          v-model="password"
-          placeholder="Пароль"
-          type="password"
-        />
-
-        <ui-button
-          class="auth__button"
-          @click="signIn"
+  <validation-observer v-slot="{ handleSubmit }">
+    <div class="auth">
+      <div class="auth__content">
+        <form
+          class="auth__form"
+          @submit.prevent
         >
-          Войти
-        </ui-button>
-      </form>
-    </div>
+          <div class="auth__logo">
+            <img
+              src="~/assets/images/mtuci-logo.png"
+              alt="Logo"
+            >
+          </div>
 
-    <div class="auth__image" />
-  </div>
+          <div class="auth__header">
+            <h1>MTUCILearn</h1>
+            <span>Educational portal</span>
+          </div>
+
+          <ui-input
+            v-model="email"
+            placeholder="E-mail"
+            :rules="['email', 'required']"
+          />
+
+          <ui-input
+            v-model="password"
+            placeholder="Пароль"
+            type="password"
+            :rules="['required']"
+          />
+
+          <ui-button
+            class="auth__button"
+            @click="handleSubmit(signIn)"
+          >
+            Войти
+          </ui-button>
+        </form>
+      </div>
+
+      <div class="auth__image" />
+    </div>
+  </validation-observer>
 </template>
 
 <script>
